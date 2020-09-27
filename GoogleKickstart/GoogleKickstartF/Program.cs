@@ -27,30 +27,32 @@ namespace GoogleKickstartF
                 //int peopleCount = 5;
                 //var amounts = new int[] { 9, 10, 4, 7, 2 };
 
-                //var leftOrder = new List<int>();
                 var people = Enumerable.Range(0, peopleCount).ToList();
-
+                int index = 0;
+                int person = 0;
                 Console.Write($"Case #{c}:");
                 do
                 {
-                    int person = people[0];
-                    people.RemoveAt(0);
+                    person = people[index];
                     if (amounts[person] > 0)
                     {
                         amounts[person] -= max;
                     }
                     if (amounts[person] <= 0)
                     {
-                        //leftOrder.Add(person + 1);
                         Console.Write($" {person + 1}");
+                        people.RemoveAt(index);
+                        if (index == people.Count())
+                        {
+                            index = 0;
+                        }
                     }
                     else
                     {
-                        people.Add(person);
+                        index=(index+1)%people.Count();
                     }
                 } while (people.Count() > 0);
                 Console.WriteLine();
-                //Console.WriteLine($"Case #{c}: {string.Join(" ", leftOrder)}");
             }
             //bool done = true;
         }
