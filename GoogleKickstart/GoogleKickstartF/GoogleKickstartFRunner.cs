@@ -5,12 +5,13 @@ using System.Runtime.CompilerServices;
 
 namespace GoogleKickstartF
 {
-    class Program
+    public class GoogleKickstartFRunner
     {
-        static void Main(string[] args)
+        static void Main(string[] args) { }
+        public void Run()
         {
+            Console.WriteLine("F");
             ATMQueue();
-
         }
 
         public static void ATMQueue()
