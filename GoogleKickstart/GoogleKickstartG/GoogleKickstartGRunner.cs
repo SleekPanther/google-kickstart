@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 namespace GoogleKickstartG
 {
@@ -14,7 +15,8 @@ namespace GoogleKickstartG
         {
             Console.WriteLine("G");
             //Kick_Start();   //Wrong answer
-            MaximumCoins();
+            //MaximumCoins(); //Wrong answer
+            CombinationLock();
         }
 
         private void Kick_Start0()
@@ -173,5 +175,42 @@ namespace GoogleKickstartG
                 Console.Write($"Case #{c}: {coins}");
             }
         }
+
+        private void CombinationLock()
+        {
+            int cases = 1;
+            //int cases = int.Parse(Console.ReadLine());
+            for (int c = 1; c < cases + 1; c++)
+            {
+                //var lineParts = Console.ReadLine().Split(' ');
+                //int w = int.Parse(lineParts[0]);
+                //int n = int.Parse(lineParts[1]);
+                //int[] wheels = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                //Test case 1
+                int w = 3;
+                int n = 5;
+                int[] wheels = new int[] { 2, 3, 4, };
+                //Test case 2
+                //int w = 4;
+                //int n = 10;
+                //int[] wheels = new int[] { 2, 9, 3, 8, };
+                int minTurns = int.MaxValue;
+                for(int i = 0; i < w; i++)
+                {
+                    int currentWheelVal = wheels[i];
+                    for(int target = 0; target < n; target++)
+                    {
+                        int minXLessThanY = n - target + currentWheelVal;
+                        int minXGreanterThanY = n + target - currentWheelVal;
+                        int turns = Math.Min(minXLessThanY, minXGreanterThanY);
+                        Console.WriteLine($"target {target} turns {turns}");
+                        minTurns = Math.Min(minTurns, turns);
+                    }
+                }
+
+                Console.Write($"Case #{c}: {minTurns}");
+            }
+        }
+
     }
 }
