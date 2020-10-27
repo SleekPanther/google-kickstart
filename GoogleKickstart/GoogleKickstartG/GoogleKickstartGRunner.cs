@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace GoogleKickstartG
 {
@@ -13,7 +12,7 @@ namespace GoogleKickstartG
         }
         public void Run()
         {
-            Console.WriteLine("G");
+            //Console.WriteLine("G");
             //Kick_Start();   //Wrong answer
             //MaximumCoins(); //Wrong answer
             CombinationLock();
@@ -178,37 +177,64 @@ namespace GoogleKickstartG
 
         private void CombinationLock()
         {
-            int cases = 1;
-            //int cases = int.Parse(Console.ReadLine());
+            //int cases = 1;
+            int cases = int.Parse(Console.ReadLine());
             for (int c = 1; c < cases + 1; c++)
             {
-                //var lineParts = Console.ReadLine().Split(' ');
-                //int w = int.Parse(lineParts[0]);
-                //int n = int.Parse(lineParts[1]);
-                //int[] wheels = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
-                //Test case 1
-                int w = 3;
-                int n = 5;
-                int[] wheels = new int[] { 2, 3, 4, };
-                //Test case 2
+                var lineParts = Console.ReadLine().Split(' ');
+                int w = int.Parse(lineParts[0]);
+                int n = int.Parse(lineParts[1]);
+                int[] wheels = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                ////Test case 1
+                //int w = 3;
+                //int n = 5;
+                //int[] wheels = new int[] { 2, 3, 4, };
+                ////Test case 2
                 //int w = 4;
                 //int n = 10;
                 //int[] wheels = new int[] { 2, 9, 3, 8, };
+
                 int minTurns = int.MaxValue;
-                for(int i = 0; i < w; i++)
+                int[][] minTurnsForTargetAndWheel = new int[n][];
+                for (int target = 0; target < n; target++)
                 {
-                    int currentWheelVal = wheels[i];
-                    for(int target = 0; target < n; target++)
+                    int[] minTurnsForTarget = new int[w];
+                    //Array.Fill(minTurnsForTarge, int.MaxValue);
+                    for(int j = 0; j < w; j++)
                     {
-                        int minXLessThanY = n - target + currentWheelVal;
-                        int minXGreanterThanY = n + target - currentWheelVal;
-                        int turns = Math.Min(minXLessThanY, minXGreanterThanY);
-                        Console.WriteLine($"target {target} turns {turns}");
-                        minTurns = Math.Min(minTurns, turns);
+                        minTurnsForTarget[j] = int.MaxValue;
                     }
+                    minTurnsForTargetAndWheel[target] = minTurnsForTarget;
+                    for (int i = 0; i < w; i++)
+                    {
+                        int startingDigit = wheels[i];
+                        
+
+                        if (target < startingDigit)
+                        {
+                            int upAndRollover = (n - startingDigit) + target;
+                            int down = startingDigit - target;
+                            int targetLessThanCurrent = Math.Min(down, upAndRollover);
+                            minTurnsForTargetAndWheel[target][i] = targetLessThanCurrent;
+                        }
+                        else
+                        {
+                            int downAndRollover = startingDigit + (n - target);
+                            int up = target - startingDigit;
+                            int targetLessThanCurrent = Math.Min(up, downAndRollover);
+                            minTurnsForTargetAndWheel[target][i] = targetLessThanCurrent;
+                        }
+                    }
+                    //int end = 0;
                 }
 
-                Console.Write($"Case #{c}: {minTurns}");
+                for(int i = 0; i < n; i++)
+                {
+                    int minForTargetForAllCombinedWheels = minTurnsForTargetAndWheel[i].Sum();
+                    minTurns = Math.Min(minTurns, minForTargetForAllCombinedWheels);
+                }
+
+                Console.WriteLine($"Case #{c}: {minTurns}");
             }
         }
 
